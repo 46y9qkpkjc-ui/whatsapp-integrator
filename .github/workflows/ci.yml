@@ -18,7 +18,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: npm
 
       # --ignore-scripts keeps the ai-model-observability postinstall from
       # executing on the runner; this job only needs the plugin entrypoint.
