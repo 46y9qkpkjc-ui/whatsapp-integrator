@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: selftest
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      # --ignore-scripts keeps the ai-model-observability postinstall from
+      # executing on the runner; this job only needs the plugin entrypoint.
+      - name: Install dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+
+      - name: Run selftest
+        run: npm test
+
+      - name: Report
+        run: echo "whatsapp-integrator channel registered on $(node -v)"
